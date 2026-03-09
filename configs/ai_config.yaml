@@ -1,0 +1,46 @@
+# Quant AI Lab - AI Configuration
+llm_provider: "ollama"  # openai / anthropic / ollama
+
+openai:
+  api_key: ""
+  model: "gpt-4"
+  temperature: 0.7
+  max_tokens: 4096
+
+anthropic:
+  api_key: ""
+  model: "claude-3-sonnet-20240229"
+  temperature: 0.7
+  max_tokens: 4096
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "mistral"
+  temperature: 0.7
+
+agents:
+  market_analysis:
+    enabled: true
+    llm_model: null  # null = use default provider
+  strategy_discovery:
+    enabled: true
+  backtesting:
+    enabled: true
+  risk_management:
+    enabled: true
+  execution:
+    enabled: true
+  portfolio_manager:
+    enabled: true
+  monitoring:
+    enabled: true
+  reporting:
+    enabled: true
+  data_agent:
+    enabled: true
+
+memory:
+  vector_store: "chroma"  # chroma / faiss
+  embedding_model: "all-MiniLM-L6-v2"
+  chroma_path: "database/chroma_db"
+  max_conversation_history: 50

@@ -1,0 +1,30 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/database/quant_lab.db
+backend/database/chroma_db/
+backend/database/ml_models/*.pkl
+backend/database/ml_models/*.pt
+backend/logs/*.log
+backend/dist/
+
+# Node / Next.js
+desktop_app/node_modules/
+desktop_app/.next/
+desktop_app/build/
+desktop_app/dist/
+desktop_app/.env.local
+
+# Configs (secrets)
+configs/broker_config.yaml
+configs/.whatsapp_session/
+
+# General
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+.env
+*.egg-info/

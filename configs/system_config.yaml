@@ -1,0 +1,39 @@
+# Quant AI Lab - System Configuration
+app:
+  name: "Quant AI Lab"
+  version: "1.0.0"
+  port: 8000
+  host: "0.0.0.0"
+  debug: false
+  log_level: "INFO"
+
+database:
+  sqlite_path: "database/quant_lab.db"
+  echo: false
+
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  enabled: false
+
+risk:
+  max_risk_per_trade: 0.01
+  max_daily_loss: 0.03
+  max_positions: 5
+  kill_switch_drawdown: 0.10
+  default_mode: "paper"
+
+telegram:
+  bot_token: ""
+  enabled: false
+  authorized_users: []
+
+whatsapp:
+  enabled: false
+  session_path: "configs/.whatsapp_session"
+
+alerts:
+  desktop: true
+  telegram: false
+  whatsapp: false

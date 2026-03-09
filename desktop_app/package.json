@@ -1,0 +1,72 @@
+{
+  "name": "quant-ai-lab",
+  "version": "1.0.0",
+  "description": "AI-powered autonomous trading platform for Indian markets",
+  "main": "electron_main/main.js",
+  "scripts": {
+    "dev": "concurrently \"next dev -p 3000\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "next build",
+    "electron": "electron .",
+    "start": "electron .",
+    "package": "electron-builder build --win --x64",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.0",
+    "react": "18.3.0",
+    "react-dom": "18.3.0",
+    "electron-is-dev": "^3.0.1",
+    "plotly.js": "^2.35.0",
+    "react-plotly.js": "^2.6.0",
+    "axios": "^1.7.0",
+    "zustand": "^4.5.0",
+    "tailwind-merge": "^2.5.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.400.0",
+    "@radix-ui/react-dialog": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.0",
+    "@radix-ui/react-switch": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.0",
+    "class-variance-authority": "^0.7.0",
+    "recharts": "^2.12.0",
+    "react-markdown": "^9.0.0",
+    "framer-motion": "^11.3.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.0",
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.2.0",
+    "typescript": "^5.5.0",
+    "@types/react": "^18.3.0",
+    "@types/node": "^20.14.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "@types/plotly.js": "^2.35.0"
+  },
+  "build": {
+    "appId": "com.quantailab.desktop",
+    "productName": "Quant AI Lab",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron_main/**/*",
+      ".next/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Quant AI Lab"
+    }
+  }
+}
