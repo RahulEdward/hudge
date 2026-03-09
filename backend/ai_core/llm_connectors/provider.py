@@ -13,13 +13,18 @@ def get_llm() -> LLMBase:
 
 def _create_provider() -> LLMBase:
     from backend.config import get_ai_config
+    from .oauth_handler import load_tokens
     cfg = get_ai_config()
     provider = cfg.llm_provider.lower()
 
-    if provider == "openai" and cfg.openai.api_key:
+    # Check: has API key OR OAuth token stored
+    openai_ready = cfg.openai.api_key or bool(load_tokens("openai"))
+    anthropic_ready = cfg.anthropic.api_key or bool(load_tokens("anthropic"))
+
+    if provider == "openai" and openai_ready:
         from .openai_connector import OpenAIConnector
         return OpenAIConnector()
-    elif provider == "anthropic" and cfg.anthropic.api_key:
+    elif provider == "anthropic" and anthropic_ready:
         from .anthropic_connector import AnthropicConnector
         return AnthropicConnector()
     else:

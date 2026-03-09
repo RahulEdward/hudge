@@ -1,13 +1,116 @@
 'use client'
-import { useState } from 'react'
-import { Save } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Save, LogIn, LogOut, CheckCircle, XCircle, Loader2 } from 'lucide-react'
+
+const API = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+
+interface OAuthStatus {
+  openai: { connected: boolean; expires_at: string | null }
+  anthropic: { connected: boolean; expires_at: string | null }
+}
 
 export default function Settings() {
   const [saved, setSaved] = useState(false)
+  const [oauthStatus, setOauthStatus] = useState<OAuthStatus | null>(null)
+  const [oauthLoading, setOauthLoading] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchOAuthStatus()
+  }, [])
+
+  const fetchOAuthStatus = async () => {
+    try {
+      const res = await fetch(`${API}/api/v1/llm/oauth/status`)
+      const data = await res.json()
+      setOauthStatus(data)
+    } catch {
+      // backend may not be running
+    }
+  }
+
+  const handleOAuthLogin = async (provider: string) => {
+    setOauthLoading(provider)
+    try {
+      const res = await fetch(`${API}/api/v1/llm/oauth/login/${provider}`, { method: 'POST' })
+      const data = await res.json()
+      if (data.auth_url) {
+        // Open browser for OAuth authorization
+        if (typeof window !== 'undefined' && (window as any).electronAPI?.openExternal) {
+          (window as any).electronAPI.openExternal(data.auth_url)
+        } else {
+          window.open(data.auth_url, '_blank')
+        }
+        // Poll for completion
+        let attempts = 0
+        const poll = setInterval(async () => {
+          attempts++
+          await fetchOAuthStatus()
+          const statusRes = await fetch(`${API}/api/v1/llm/oauth/status`)
+          const status = await statusRes.json()
+          if (status[provider]?.connected || attempts > 30) {
+            clearInterval(poll)
+            setOauthLoading(null)
+            setOauthStatus(status)
+          }
+        }, 2000)
+      }
+    } catch {
+      setOauthLoading(null)
+    }
+  }
+
+  const handleOAuthLogout = async (provider: string) => {
+    setOauthLoading(provider)
+    try {
+      await fetch(`${API}/api/v1/llm/oauth/logout/${provider}`, { method: 'POST' })
+      await fetchOAuthStatus()
+    } finally {
+      setOauthLoading(null)
+    }
+  }
 
   const save = () => {
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
+  }
+
+  const ProviderRow = ({ provider, label }: { provider: string; label: string }) => {
+    const status = oauthStatus?.[provider as keyof OAuthStatus]
+    const loading = oauthLoading === provider
+    return (
+      <div className="flex items-center justify-between py-2">
+        <div className="flex items-center gap-2">
+          {status?.connected ? (
+            <CheckCircle size={14} className="text-emerald-400" />
+          ) : (
+            <XCircle size={14} className="text-slate-600" />
+          )}
+          <span className="text-sm text-slate-300">{label}</span>
+          {status?.connected && status.expires_at && (
+            <span className="text-xs text-slate-500">
+              (expires {new Date(status.expires_at).toLocaleDateString()})
+            </span>
+          )}
+        </div>
+        {loading ? (
+          <Loader2 size={16} className="text-indigo-400 animate-spin" />
+        ) : status?.connected ? (
+          <button
+            onClick={() => handleOAuthLogout(provider)}
+            className="flex items-center gap-1 px-3 py-1 text-xs bg-rose-900/40 hover:bg-rose-900/70 text-rose-300 border border-rose-800/40 rounded-lg"
+          >
+            <LogOut size={12} /> Disconnect
+          </button>
+        ) : (
+          <button
+            onClick={() => handleOAuthLogin(provider)}
+            className="flex items-center gap-1 px-3 py-1 text-xs bg-indigo-900/40 hover:bg-indigo-900/70 text-indigo-300 border border-indigo-800/40 rounded-lg"
+          >
+            <LogIn size={12} /> Connect
+          </button>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -26,12 +129,24 @@ export default function Settings() {
           </select>
         </div>
         <div>
-          <label className="block text-xs text-slate-500 mb-1">API Key (if applicable)</label>
+          <label className="block text-xs text-slate-500 mb-1">API Key (optional if using OAuth)</label>
           <input type="password" placeholder="sk-..." className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-600" />
         </div>
         <div>
           <label className="block text-xs text-slate-500 mb-1">Ollama URL</label>
           <input defaultValue="http://localhost:11434" className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-600" />
+        </div>
+      </div>
+
+      {/* OAuth Login */}
+      <div className="card space-y-3">
+        <div>
+          <h2 className="text-sm font-semibold text-slate-300">OAuth Login</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Connect via OAuth 2.0 — no API key needed. Token is encrypted and stored locally.</p>
+        </div>
+        <div className="divide-y divide-[#1e1e2e]">
+          <ProviderRow provider="anthropic" label="Anthropic Claude" />
+          <ProviderRow provider="openai" label="OpenAI GPT-4" />
         </div>
       </div>
 
