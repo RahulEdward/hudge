@@ -1,0 +1,42 @@
+[
+  {
+    "name": "options_chain_analyzer",
+    "version": "1.0.0",
+    "description": "Analyze options chain data with Greeks calculation and strategy suggestions",
+    "author": "Quant AI Lab",
+    "category": "analysis",
+    "tags": ["options", "greeks", "strategy"]
+  },
+  {
+    "name": "sentiment_scanner",
+    "version": "1.0.0",
+    "description": "Scan news and social media for market sentiment using NLP",
+    "author": "Quant AI Lab",
+    "category": "data",
+    "tags": ["sentiment", "nlp", "news"]
+  },
+  {
+    "name": "multi_timeframe_analysis",
+    "version": "1.0.0",
+    "description": "Run analysis across multiple timeframes simultaneously",
+    "author": "Quant AI Lab",
+    "category": "analysis",
+    "tags": ["timeframe", "multi-tf", "analysis"]
+  },
+  {
+    "name": "telegram_signals",
+    "version": "1.0.0",
+    "description": "Publish trading signals to a Telegram channel automatically",
+    "author": "Quant AI Lab",
+    "category": "communication",
+    "tags": ["telegram", "signals", "broadcast"]
+  },
+  {
+    "name": "sector_rotation",
+    "version": "1.0.0",
+    "description": "Track sector rotation and identify trending sectors",
+    "author": "Quant AI Lab",
+    "category": "strategy",
+    "tags": ["sector", "rotation", "momentum"]
+  }
+]

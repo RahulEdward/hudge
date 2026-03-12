@@ -1,13 +1,17 @@
 'use client'
-import { LayoutDashboard, MessageSquare, TrendingUp, BarChart2, Zap, Briefcase, Settings, FileText, Activity } from 'lucide-react'
+import { LayoutDashboard, MessageSquare, TrendingUp, BarChart2, Zap, Briefcase, Settings, FileText, Activity, CandlestickChart, Plug, Bot, Package } from 'lucide-react'
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'chat', label: 'AI Chat', icon: MessageSquare },
+  { id: 'charts', label: 'Charts', icon: CandlestickChart },
+  { id: 'broker_accounts', label: 'Brokers', icon: Plug },
   { id: 'strategies', label: 'Strategy Lab', icon: TrendingUp },
   { id: 'backtest', label: 'Backtest', icon: BarChart2 },
   { id: 'trading', label: 'Live Trading', icon: Zap },
   { id: 'portfolio', label: 'Portfolio', icon: Briefcase },
+  { id: 'agent_builder', label: 'Agent Builder', icon: Bot },
+  { id: 'plugin_marketplace', label: 'Plugins', icon: Package },
   { id: 'settings', label: 'Settings', icon: Settings },
   { id: 'logs', label: 'Logs', icon: FileText },
 ] as const
@@ -15,8 +19,8 @@ const navItems = [
 type Page = typeof navItems[number]['id']
 
 interface SidebarProps {
-  activePage: Page
-  onNavigate: (page: Page) => void
+  activePage: string
+  onNavigate: (page: any) => void
 }
 
 export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
@@ -31,7 +35,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 space-y-1 px-2">
+      <nav className="flex-1 space-y-1 px-2 overflow-y-auto">
         {navItems.map(({ id, label, icon: Icon }) => (
           <button
             key={id}

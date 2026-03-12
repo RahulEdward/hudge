@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from .routes import health, agents, market, trading, portfolio, strategies, backtest, broker, ml, alerts
-from .routes import llm_oauth
+from .routes import llm_oauth, auth
 from .websocket_server import websocket_market, websocket_agent, websocket_trades
 from fastapi import WebSocket
 
@@ -18,6 +18,7 @@ def register_routes(app: FastAPI):
     app.include_router(ml.router)
     app.include_router(alerts.router)
     app.include_router(llm_oauth.router)
+    app.include_router(auth.router)
 
     # WebSocket routes
     app.add_api_websocket_route("/ws/market", websocket_market)
