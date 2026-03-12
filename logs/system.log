@@ -1,1 +1,16 @@
 2026-03-12 12:21:54.892 | INFO     | __main__:<module>:18 - Starting Quant AI Lab v1.0.0
+2026-03-12 12:21:56.326 | INFO     | backend.api_server.main:lifespan:24 - Starting Quant AI Lab v1.0.0
+2026-03-12 12:21:56.524 | INFO     | backend.database.connection:init_db:25 - Database initialized: sqlite+aiosqlite:///database/quant_lab.db
+2026-03-12 12:21:56.539 | INFO     | backend.broker_gateway.broker_manager:initialize:41 - BrokerManager initialized. Active: paper
+2026-03-12 12:21:56.539 | INFO     | backend.api_server.main:lifespan:32 - Broker manager initialized
+2026-03-12 12:21:56.608 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: market_analysis
+2026-03-12 12:21:56.623 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: strategy_discovery
+2026-03-12 12:21:56.638 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: risk_management
+2026-03-12 12:21:56.656 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: execution
+2026-03-12 12:21:56.675 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: portfolio_manager
+2026-03-12 12:21:56.693 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: monitoring
+2026-03-12 12:21:56.713 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: reporting
+2026-03-12 12:21:56.730 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:38 - Agent loaded: data_agent
+2026-03-12 12:21:56.731 | INFO     | backend.ai_core.agent_orchestrator.orchestrator:initialize:43 - Orchestrator initialized with 8 agents
+2026-03-12 12:21:56.732 | INFO     | backend.api_server.main:lifespan:40 - Agent orchestrator initialized
+2026-03-12 12:21:56.732 | INFO     | backend.api_server.main:lifespan:44 - Server ready on port 8000

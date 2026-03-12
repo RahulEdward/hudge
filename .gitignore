@@ -21,6 +21,10 @@ desktop_app/.env.local
 configs/broker_config.yaml
 configs/.whatsapp_session/
 
+# Runtime data
+database/
+logs/
+
 # General
 *.pyc
 *.pyo
@@ -28,3 +32,5 @@ configs/.whatsapp_session/
 Thumbs.db
 .env
 *.egg-info/
+package-lock.json
+next-env.d.ts
